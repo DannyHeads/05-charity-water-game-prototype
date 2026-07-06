@@ -17,16 +17,27 @@ const rightButton = document.getElementById("rightButton");
 let score = 0;
 let timeLeft = 30;
 let gameRunning = false;
+let gameStarted = false;
 
 let bucketPosition = 50;
-let bucketSpeed = 5;
+let bucketSpeed = 0.45;
+
+let movingLeft = false;
+let movingRight = false;
 
 let dropSpawnInterval;
 let gameTimerInterval;
-let movementInterval;
+let animationFrameId;
+let countdownInterval;
 
-// Start button
-startButton.addEventListener("click", startCountdown);
+// Start / Restart button
+startButton.addEventListener("click", function() {
+  if (gameStarted) {
+    restartGame();
+  } else {
+    startCountdown();
+  }
+});
 
 // Keyboard controls for desktop
 document.addEventListener("keydown", function(event) {
@@ -35,21 +46,35 @@ document.addEventListener("keydown", function(event) {
   }
 
   if (event.key === "ArrowLeft") {
-    moveBucketLeft();
+    movingLeft = true;
   }
 
   if (event.key === "ArrowRight") {
-    moveBucketRight();
+    movingRight = true;
+  }
+});
+
+document.addEventListener("keyup", function(event) {
+  if (event.key === "ArrowLeft") {
+    movingLeft = false;
+  }
+
+  if (event.key === "ArrowRight") {
+    movingRight = false;
   }
 });
 
 // Mobile button controls
 leftButton.addEventListener("mousedown", function() {
-  startMoving("left");
+  if (gameRunning) {
+    movingLeft = true;
+  }
 });
 
 rightButton.addEventListener("mousedown", function() {
-  startMoving("right");
+  if (gameRunning) {
+    movingRight = true;
+  }
 });
 
 leftButton.addEventListener("mouseup", stopMoving);
@@ -60,12 +85,18 @@ rightButton.addEventListener("mouseleave", stopMoving);
 
 leftButton.addEventListener("touchstart", function(event) {
   event.preventDefault();
-  startMoving("left");
+
+  if (gameRunning) {
+    movingLeft = true;
+  }
 });
 
 rightButton.addEventListener("touchstart", function(event) {
   event.preventDefault();
-  startMoving("right");
+
+  if (gameRunning) {
+    movingRight = true;
+  }
 });
 
 leftButton.addEventListener("touchend", stopMoving);
@@ -75,13 +106,15 @@ rightButton.addEventListener("touchend", stopMoving);
 function startCountdown() {
   resetGame();
 
-  startButton.style.display = "none";
+  gameStarted = true;
+  startButton.textContent = "Restart Game";
+
   countdownDisplay.style.display = "flex";
 
   let countdownNumber = 3;
   countdownDisplay.textContent = countdownNumber;
 
-  const countdownInterval = setInterval(function() {
+  countdownInterval = setInterval(function() {
     countdownNumber--;
 
     if (countdownNumber > 0) {
@@ -103,6 +136,8 @@ function startGame() {
   gameRunning = true;
   messageBox.textContent = "Catch blue droplets! Avoid green droplets!";
 
+  animationFrameId = requestAnimationFrame(updateGame);
+
   dropSpawnInterval = setInterval(createDrop, 700);
 
   gameTimerInterval = setInterval(function() {
@@ -113,6 +148,33 @@ function startGame() {
       endGame();
     }
   }, 1000);
+}
+
+// Updates smooth player movement
+function updateGame() {
+  if (!gameRunning) {
+    return;
+  }
+
+  if (movingLeft) {
+    bucketPosition -= bucketSpeed;
+  }
+
+  if (movingRight) {
+    bucketPosition += bucketSpeed;
+  }
+
+  if (bucketPosition < 5) {
+    bucketPosition = 5;
+  }
+
+  if (bucketPosition > 95) {
+    bucketPosition = 95;
+  }
+
+  bucket.style.left = bucketPosition + "%";
+
+  animationFrameId = requestAnimationFrame(updateGame);
 }
 
 // Creates falling water drops
@@ -185,48 +247,20 @@ function checkCollision(drop, bucket) {
   );
 }
 
-// Moves bucket left
-function moveBucketLeft() {
-  bucketPosition -= bucketSpeed;
-
-  if (bucketPosition < 5) {
-    bucketPosition = 5;
-  }
-
-  bucket.style.left = bucketPosition + "%";
-}
-
-// Moves bucket right
-function moveBucketRight() {
-  bucketPosition += bucketSpeed;
-
-  if (bucketPosition > 95) {
-    bucketPosition = 95;
-  }
-
-  bucket.style.left = bucketPosition + "%";
-}
-
-// Starts holding movement for mobile buttons
-function startMoving(direction) {
-  if (!gameRunning) {
-    return;
-  }
-
-  stopMoving();
-
-  movementInterval = setInterval(function() {
-    if (direction === "left") {
-      moveBucketLeft();
-    } else {
-      moveBucketRight();
-    }
-  }, 60);
-}
-
-// Stops holding movement
+// Stops movement
 function stopMoving() {
-  clearInterval(movementInterval);
+  movingLeft = false;
+  movingRight = false;
+}
+
+// Restarts the game
+function restartGame() {
+  clearInterval(countdownInterval);
+  clearInterval(dropSpawnInterval);
+  clearInterval(gameTimerInterval);
+  cancelAnimationFrame(animationFrameId);
+
+  startCountdown();
 }
 
 // Ends the game
@@ -235,7 +269,10 @@ function endGame() {
 
   clearInterval(dropSpawnInterval);
   clearInterval(gameTimerInterval);
-  clearInterval(movementInterval);
+  cancelAnimationFrame(animationFrameId);
+
+  movingLeft = false;
+  movingRight = false;
 
   const allDrops = document.querySelectorAll(".drop");
   allDrops.forEach(function(drop) {
@@ -252,7 +289,6 @@ function endGame() {
     score +
     " people.";
 
-  startButton.style.display = "block";
   startButton.textContent = "Play Again";
 }
 
@@ -263,13 +299,16 @@ function resetGame() {
   bucketPosition = 50;
   gameRunning = false;
 
+  movingLeft = false;
+  movingRight = false;
+
   scoreDisplay.textContent = score;
   timerDisplay.textContent = timeLeft;
   bucket.style.left = bucketPosition + "%";
 
   clearInterval(dropSpawnInterval);
   clearInterval(gameTimerInterval);
-  clearInterval(movementInterval);
+  cancelAnimationFrame(animationFrameId);
 
   const allDrops = document.querySelectorAll(".drop");
   allDrops.forEach(function(drop) {
