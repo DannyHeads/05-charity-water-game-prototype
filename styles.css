@@ -102,10 +102,20 @@ body {
   font-size: 3rem;
   font-weight: bold;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
   padding: 20px;
+}
+
+.start-instructions {
+  font-size: 1rem;
+  font-weight: bold;
+  max-width: 420px;
+  margin-top: 12px;
+  line-height: 1.4;
+  color: #333;
 }
 
 .bucket {
@@ -287,5 +297,14 @@ button:hover {
 
   .start-button {
     padding: 18px;
+  }
+
+  .countdown {
+    font-size: 2.5rem;
+  }
+
+  .start-instructions {
+    font-size: 0.95rem;
+    max-width: 300px;
   }
 }

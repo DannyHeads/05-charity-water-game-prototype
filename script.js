@@ -7,6 +7,8 @@ const bucket = document.getElementById("bucket");
 const scoreDisplay = document.getElementById("score");
 const timerDisplay = document.getElementById("timer");
 const countdownDisplay = document.getElementById("countdown");
+const countdownText = document.getElementById("countdownText");
+const startInstructions = document.getElementById("startInstructions");
 const messageBox = document.getElementById("messageBox");
 
 const startButton = document.getElementById("startButton");
@@ -110,18 +112,19 @@ function startCountdown() {
   startButton.textContent = "Restart Game";
 
   countdownDisplay.style.display = "flex";
+  startInstructions.style.display = "block";
 
   let countdownNumber = 3;
-  countdownDisplay.textContent = countdownNumber;
+  countdownText.textContent = countdownNumber;
 
   countdownInterval = setInterval(function() {
     countdownNumber--;
 
     if (countdownNumber > 0) {
-      countdownDisplay.textContent = countdownNumber;
+      countdownText.textContent = countdownNumber;
     } else {
       clearInterval(countdownInterval);
-      countdownDisplay.textContent = "Go!";
+      countdownText.textContent = "Go!";
 
       setTimeout(function() {
         countdownDisplay.style.display = "none";
@@ -280,7 +283,8 @@ function endGame() {
   });
 
   countdownDisplay.style.display = "flex";
-  countdownDisplay.textContent = "Game Over";
+  countdownText.textContent = "Game Over";
+  startInstructions.style.display = "none";
 
   celebrateWin();
 
@@ -321,6 +325,9 @@ function resetGame() {
   allConfetti.forEach(function(confetti) {
     confetti.remove();
   });
+
+  countdownText.textContent = "Press Start";
+  startInstructions.style.display = "block";
 
   messageBox.textContent = "Get ready to collect clean water!";
 }
