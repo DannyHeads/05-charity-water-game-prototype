@@ -20,7 +20,7 @@ let gameRunning = false;
 let gameStarted = false;
 
 let bucketPosition = 50;
-let bucketSpeed = 1.0;
+let bucketSpeed = 0.85;
 
 let movingLeft = false;
 let movingRight = false;
@@ -282,6 +282,8 @@ function endGame() {
   countdownDisplay.style.display = "flex";
   countdownDisplay.textContent = "Game Over";
 
+  celebrateWin();
+
   messageBox.textContent =
     "You managed to collect " +
     score +
@@ -315,5 +317,30 @@ function resetGame() {
     drop.remove();
   });
 
+  const allConfetti = document.querySelectorAll(".confetti");
+  allConfetti.forEach(function(confetti) {
+    confetti.remove();
+  });
+
   messageBox.textContent = "Get ready to collect clean water!";
+}
+
+// Creates a small confetti celebration when the game ends
+function celebrateWin() {
+  const colors = ["#FFC907", "#2E9DF7", "#4FCB53", "#FF902A", "#F5402C", "#8BD1CB"];
+
+  for (let i = 0; i < 50; i++) {
+    const confetti = document.createElement("div");
+
+    confetti.classList.add("confetti");
+    confetti.style.left = Math.random() * 100 + "%";
+    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+    confetti.style.animationDelay = Math.random() * 0.5 + "s";
+
+    gameArea.appendChild(confetti);
+
+    setTimeout(function() {
+      confetti.remove();
+    }, 3000);
+  }
 }
