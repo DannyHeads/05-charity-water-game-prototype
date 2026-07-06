@@ -20,7 +20,7 @@ let gameRunning = false;
 let gameStarted = false;
 
 let bucketPosition = 50;
-let bucketSpeed = 0.45;
+let bucketSpeed = 0.65;
 
 let movingLeft = false;
 let movingRight = false;
