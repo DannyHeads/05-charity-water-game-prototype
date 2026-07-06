@@ -1,13 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Charity Water Game</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Water Fall | charity: water Game</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-    <h1>Welcome to the Charity Water Game Prototype</h1>
-    <script src="script.js"></script>
+
+  <main class="game-wrapper">
+
+    <header class="game-header">
+      <h1>Water Fall</h1>
+      <p>Collect clean water. Avoid polluted water.</p>
+    </header>
+
+    <section class="game-info">
+      <div class="info-box">
+        <span>Gallons Collected</span>
+        <strong id="score">0</strong>
+      </div>
+
+      <div class="info-box">
+        <span>Time Left</span>
+        <strong id="timer">30</strong>
+      </div>
+    </section>
+
+    <section class="game-area" id="gameArea">
+      <div id="countdown" class="countdown">Press Start</div>
+
+      <div id="bucket" class="bucket">
+        <div class="bucket-icon">🟨</div>
+      </div>
+    </section>
+
+    <section class="controls">
+      <button id="leftButton" class="control-button">←</button>
+      <button id="startButton" class="start-button">Start Game</button>
+      <button id="rightButton" class="control-button">→</button>
+    </section>
+
+    <section id="messageBox" class="message-box">
+      Move the yellow container to catch blue water droplets!
+    </section>
+
+    <footer class="game-footer">
+      <a href="https://www.charitywater.org/" target="_blank">
+        Learn more about charity: water
+      </a>
+    </footer>
+
+  </main>
+
+  <script src="script.js"></script>
 </body>
 </html>
