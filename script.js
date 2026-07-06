@@ -55,11 +55,16 @@ rightButton.addEventListener("mousedown", function() {
 leftButton.addEventListener("mouseup", stopMoving);
 rightButton.addEventListener("mouseup", stopMoving);
 
-leftButton.addEventListener("touchstart", function() {
+leftButton.addEventListener("mouseleave", stopMoving);
+rightButton.addEventListener("mouseleave", stopMoving);
+
+leftButton.addEventListener("touchstart", function(event) {
+  event.preventDefault();
   startMoving("left");
 });
 
-rightButton.addEventListener("touchstart", function() {
+rightButton.addEventListener("touchstart", function(event) {
+  event.preventDefault();
   startMoving("right");
 });
 
@@ -70,7 +75,7 @@ rightButton.addEventListener("touchend", stopMoving);
 function startCountdown() {
   resetGame();
 
-  startButton.disabled = true;
+  startButton.style.display = "none";
   countdownDisplay.style.display = "flex";
 
   let countdownNumber = 3;
@@ -247,7 +252,7 @@ function endGame() {
     score +
     " people.";
 
-  startButton.disabled = false;
+  startButton.style.display = "block";
   startButton.textContent = "Play Again";
 }
 

@@ -126,8 +126,6 @@ body {
   background: #FFC907;
   border: 3px solid white;
   border-radius: 8px;
-  color: white;
-  font-size: 0;
   position: relative;
 }
 
@@ -173,17 +171,24 @@ body {
 
 .controls {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 15px;
   margin: 18px 0;
 }
 
+.arrow-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+}
+
 button {
   cursor: pointer;
   font-weight: bold;
   border: 3px solid #111;
-  border-radius: 8px;
   background: white;
   transition: transform 0.15s ease, background 0.15s ease;
 }
@@ -196,10 +201,21 @@ button:hover {
   width: 70px;
   height: 60px;
   font-size: 2rem;
+  border-radius: 0;
+}
+
+.control-button:first-child {
+  border-radius: 8px 0 0 8px;
+}
+
+.control-button:last-child {
+  border-radius: 0 8px 8px 0;
+  border-left: none;
 }
 
 .start-button {
   background: #FFC907;
+  border-radius: 8px;
   padding: 18px 28px;
   font-size: 1rem;
 }
@@ -255,12 +271,8 @@ button:hover {
     height: 500px;
   }
 
-  .controls {
-    gap: 10px;
-  }
-
   .control-button {
-    width: 65px;
+    width: 70px;
     height: 65px;
   }
 
