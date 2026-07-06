@@ -129,7 +129,7 @@ function createDrop() {
 
   const randomLeftPosition = Math.random() * 95;
   drop.style.left = randomLeftPosition + "%";
-  drop.style.top = "-40px";
+  drop.style.top = "-60px";
 
   gameArea.appendChild(drop);
 
@@ -138,7 +138,7 @@ function createDrop() {
 
 // Moves each drop down the screen
 function moveDrop(drop, isCleanDrop) {
-  let dropTopPosition = -40;
+  let dropTopPosition = -60;
 
   const fallInterval = setInterval(function() {
     if (!gameRunning) {

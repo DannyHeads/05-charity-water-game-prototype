@@ -110,63 +110,38 @@ body {
 
 .bucket {
   position: absolute;
-  bottom: 15px;
+  bottom: 10px;
   left: 50%;
-  width: 70px;
-  height: 70px;
+  width: 80px;
+  height: 100px;
   transform: translateX(-50%);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.bucket-icon {
-  width: 60px;
-  height: 60px;
-  background: #FFC907;
-  border: 3px solid white;
-  border-radius: 8px;
-  position: relative;
-}
-
-.bucket-icon::before {
-  content: "";
-  position: absolute;
-  top: 10px;
-  left: 18px;
-  width: 20px;
-  height: 35px;
-  border: 4px solid white;
-  border-radius: 4px;
-}
-
-.bucket-icon::after {
-  content: "";
-  position: absolute;
-  top: 22px;
-  left: 13px;
-  width: 30px;
-  height: 4px;
-  background: white;
-  transform: rotate(45deg);
+.bucket img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
 }
 
 .drop {
   position: absolute;
-  width: 28px;
-  height: 36px;
-  border-radius: 50% 50% 50% 0;
-  transform: rotate(-45deg);
+  width: 42px;
+  height: 58px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .drop.clean {
-  background: #2E9DF7;
-  border: 2px solid #0077c8;
+  background-image: url("img/Blue_Drop.png");
 }
 
 .drop.polluted {
-  background: #4FCB53;
-  border: 2px solid #159A48;
+  background-image: url("img/Green_Drop.png");
 }
 
 .controls {
@@ -269,6 +244,16 @@ button:hover {
 
   .game-area {
     height: 500px;
+  }
+
+  .bucket {
+    width: 75px;
+    height: 95px;
+  }
+
+  .drop {
+    width: 40px;
+    height: 55px;
   }
 
   .control-button {
